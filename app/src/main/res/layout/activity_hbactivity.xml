@@ -8,12 +8,56 @@
     tools:context=".HBActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="356dp"
-        android:layout_marginEnd="192dp"
-        android:text="Test"
+        android:text="Runny or Hard?"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.089" />
+
+    <Button
+        android:id="@+id/runny"
+        android:layout_width="165dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="316dp"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:text="Runny (6min)"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/soft"
+        android:layout_width="165dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="316dp"
+        android:layout_marginEnd="16dp"
+        android:text="Soft (8min)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/medium"
+        android:layout_width="165dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="492dp"
+        android:text="Medium (10min)"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/hard"
+        android:layout_width="165dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="492dp"
+        android:layout_marginEnd="16dp"
+        android:text="Hard (12min)"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

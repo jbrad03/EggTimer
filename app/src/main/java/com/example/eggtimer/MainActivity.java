@@ -14,6 +14,10 @@ import androidx.core.view.WindowInsetsCompat;
 public class MainActivity extends AppCompatActivity {
 
     Button hbbutton;
+    Button friedbutton;
+    Button scbutton;
+    Button oebutton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +32,39 @@ public class MainActivity extends AppCompatActivity {
 
 
         hbbutton=findViewById(R.id.hardboiled);
+        friedbutton=findViewById(R.id.fried);
+        scbutton=findViewById(R.id.scrambled);
+        oebutton=findViewById(R.id.overeasy);
+
 
         hbbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this, HBActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        friedbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, FriedActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        scbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, ScActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        oebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, OeActivity.class);
                 startActivity(intent);
             }
         });
