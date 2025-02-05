@@ -11,6 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.eggtimer.hbactivities.HardActivity;
 import com.example.eggtimer.hbactivities.MediumActivity;
 import com.example.eggtimer.hbactivities.RunnyActivity;
 import com.example.eggtimer.hbactivities.SoftActivity;
@@ -20,6 +21,7 @@ public class HBActivity extends AppCompatActivity {
     Button sixmin;
     Button eightmin;
     Button tenmin;
+    Button twelvemin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class HBActivity extends AppCompatActivity {
         sixmin=findViewById(R.id.runny);
         eightmin=findViewById(R.id.soft);
         tenmin=findViewById(R.id.medium);
+        twelvemin=findViewById(R.id.hard);
 
 
 
@@ -59,6 +62,14 @@ public class HBActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(HBActivity.this, MediumActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        twelvemin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HBActivity.this, HardActivity.class);
                 startActivity(intent);
             }
         });
