@@ -3,18 +3,10 @@
 
     <!-- Progress Circle -->
     <item>
-        <rotate
-            android:fromDegrees="-90"
-            android:toDegrees="0">
-            <shape android:shape="ring"
-                android:useLevel="true"
-                android:thicknessRatio="16">
-                <gradient
-                    android:angle="0"
-                    android:startColor="#FFA726"
-                    android:endColor="#FFCC80"
-                    android:type="sweep" />
-            </shape>
-        </rotate>
+        <shape android:shape="ring"
+            android:useLevel="true"
+            android:thicknessRatio="16">
+            <solid android:color="#FFA726" />
+        </shape>
     </item>
 </layer-list>

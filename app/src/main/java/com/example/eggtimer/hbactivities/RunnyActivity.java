@@ -1,20 +1,13 @@
 package com.example.eggtimer.hbactivities;
 
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import android.app.Activity;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
+import android.os.CountDownTimer;
+import android.animation.ObjectAnimator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.os.CountDownTimer;
 
 import com.example.eggtimer.R;
 
@@ -25,11 +18,14 @@ public class RunnyActivity extends AppCompatActivity {
     private Button resetButton;
 
     private ProgressBar circularProgressBar;
-
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis = 6 * 60 * 1000; // 6 minutes in milliseconds
     private long totalTimeInMillis = 6 * 60 * 1000; // Total time for progress calculation
     private boolean timerRunning = false;
+
+    private ImageView chickenImageView;
+    private ObjectAnimator chickenAnimator;
+    private long chickenCurrentPosition = 0L;  // Tracks chicken’s animation progress for pausing/resuming
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +36,31 @@ public class RunnyActivity extends AppCompatActivity {
         startPauseButton = findViewById(R.id.startPauseButton);
         resetButton = findViewById(R.id.resetButton);
         circularProgressBar = findViewById(R.id.circularProgressBar);
+        chickenImageView = findViewById(R.id.chickenImageView);
 
         updateTimerText();
         updateProgressBar();
 
+        // Initialize the chicken animation (smoothly moving across the screen)
+        chickenAnimator = ObjectAnimator.ofFloat(chickenImageView, "translationX", 0f, getScreenWidth()); // Adjust 800f as necessary
+        chickenAnimator.setDuration(6000);  // Matches the total duration of the animation
+        chickenAnimator.setRepeatCount(ObjectAnimator.INFINITE);  // Keep looping
+        chickenAnimator.setInterpolator(null);  // Smooth linear animation
+
         startPauseButton.setOnClickListener(v -> {
             if (timerRunning) {
                 pauseTimer();
+                pauseChickenAnimation();
             } else {
                 startTimer();
+                resumeChickenAnimation();
             }
         });
 
-        resetButton.setOnClickListener(v -> resetTimer());
+        resetButton.setOnClickListener(v -> {
+            resetTimer();
+            resetChickenPosition();
+        });
     }
 
     private void startTimer() {
@@ -74,6 +82,7 @@ public class RunnyActivity extends AppCompatActivity {
 
         timerRunning = true;
         startPauseButton.setText("Pause");
+        chickenAnimator.start();  // Ensure the chicken starts moving when the timer starts
     }
 
     private void pauseTimer() {
@@ -91,6 +100,7 @@ public class RunnyActivity extends AppCompatActivity {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+        resetChickenPosition();
     }
 
     private void updateTimerText() {
@@ -101,7 +111,28 @@ public class RunnyActivity extends AppCompatActivity {
     }
 
     private void updateProgressBar() {
-        int progress = (int) (100 * timeLeftInMillis / totalTimeInMillis);
+        int progress = (int) (10000 * timeLeftInMillis / totalTimeInMillis);
         circularProgressBar.setProgress(progress);
+    }
+
+    private void pauseChickenAnimation() {
+        // Save the current animation position and pause it
+        chickenCurrentPosition = chickenAnimator.getCurrentPlayTime();
+        chickenAnimator.pause();
+    }
+
+    private void resumeChickenAnimation() {
+        // Resume animation from the saved position
+        chickenAnimator.setCurrentPlayTime(chickenCurrentPosition);
+        chickenAnimator.resume();
+    }
+
+    private void resetChickenPosition() {
+        chickenAnimator.cancel();  // Cancel any ongoing animation
+        chickenImageView.setTranslationX(0f);  // Move the chicken back to the start
+        chickenCurrentPosition = 0L;  // Reset the tracked animation position
+    }
+    private float getScreenWidth() {
+        return getResources().getDisplayMetrics().widthPixels;
     }
 }

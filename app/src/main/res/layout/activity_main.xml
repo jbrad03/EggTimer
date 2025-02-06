@@ -29,7 +29,7 @@
         android:layout_height="95dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="316dp"
-        android:backgroundTint="#ffffff"
+        android:backgroundTint="#F0EAD6"
         android:fontFamily="@font/mochiy_pop_p_one"
         android:scaleX="1"
         android:scaleY="1"
@@ -45,7 +45,13 @@
         android:layout_height="95dp"
         android:layout_marginTop="316dp"
         android:layout_marginEnd="16dp"
+        android:fontFamily="@font/mochiy_pop_p_one"
+        android:scaleX="1"
+        android:scaleY="1"
         android:text="Fried"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:backgroundTint="#F0EAD6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +61,13 @@
         android:layout_height="95dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="492dp"
+        android:fontFamily="@font/mochiy_pop_p_one"
+        android:scaleX="1"
+        android:scaleY="1"
         android:text="Scrambled"
+        android:textColor="#000000"
+        android:textSize="19sp"
+        android:backgroundTint="#F0EAD6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,7 +77,13 @@
         android:layout_height="95dp"
         android:layout_marginTop="492dp"
         android:layout_marginEnd="16dp"
+        android:fontFamily="@font/mochiy_pop_p_one"
+        android:scaleX="1"
+        android:scaleY="1"
         android:text="Over Easy"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:backgroundTint="#F0EAD6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
