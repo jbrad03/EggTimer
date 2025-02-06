@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.os.CountDownTimer;
 
@@ -23,27 +24,25 @@ public class RunnyActivity extends AppCompatActivity {
     private Button startPauseButton;
     private Button resetButton;
 
+    private ProgressBar circularProgressBar;
+
     private CountDownTimer countDownTimer;
-    private long timeLeftInMillis = 6 * 60 * 1000; // 6 minutes in milliseconds    
+    private long timeLeftInMillis = 6 * 60 * 1000; // 6 minutes in milliseconds
+    private long totalTimeInMillis = 6 * 60 * 1000; // Total time for progress calculation
     private boolean timerRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_runny);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
 
         timerTextView = findViewById(R.id.timerTextView);
         startPauseButton = findViewById(R.id.startPauseButton);
         resetButton = findViewById(R.id.resetButton);
+        circularProgressBar = findViewById(R.id.circularProgressBar);
 
         updateTimerText();
+        updateProgressBar();
 
         startPauseButton.setOnClickListener(v -> {
             if (timerRunning) {
@@ -62,12 +61,14 @@ public class RunnyActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
                 updateTimerText();
+                updateProgressBar();
             }
 
             @Override
             public void onFinish() {
                 timerRunning = false;
                 startPauseButton.setText("Start");
+                updateProgressBar();
             }
         }.start();
 
@@ -82,8 +83,9 @@ public class RunnyActivity extends AppCompatActivity {
     }
 
     private void resetTimer() {
-        timeLeftInMillis = 6 * 60 * 1000; // Reset to 6 minutes
+        timeLeftInMillis = totalTimeInMillis;
         updateTimerText();
+        updateProgressBar();
         startPauseButton.setText("Start");
         timerRunning = false;
         if (countDownTimer != null) {
@@ -98,4 +100,8 @@ public class RunnyActivity extends AppCompatActivity {
         timerTextView.setText(timeFormatted);
     }
 
+    private void updateProgressBar() {
+        int progress = (int) (100 * timeLeftInMillis / totalTimeInMillis);
+        circularProgressBar.setProgress(progress);
+    }
 }
