@@ -1,45 +1,74 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFE29C"
     tools:context=".hbactivities.HardActivity">
+
+    <!-- Circular Progress Bar -->
+    <ProgressBar
+        android:id="@+id/circularProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="407dp"
+        android:layout_height="445dp"
+        android:layout_marginTop="60dp"
+        android:indeterminate="false"
+        android:max="10000"
+        android:progress="10000"
+        android:progressDrawable="@drawable/circular_progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Timer TextView -->
+
+    <!-- Chicken ImageView (slightly above the buttons) -->
 
     <TextView
         android:id="@+id/timerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="244dp"
-        android:layout_marginEnd="144dp"
         android:text="12:00"
-        android:textSize="48sp"
+        android:textSize="96sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="@id/circularProgressBar"
+        app:layout_constraintBottom_toBottomOf="@id/circularProgressBar"
+        app:layout_constraintStart_toStartOf="@id/circularProgressBar"
+        app:layout_constraintEnd_toEndOf="@id/circularProgressBar" />
 
-    <Button
-        android:id="@+id/startPauseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="284dp"
-        android:text="Start"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints" />
+    <ImageView
+        android:id="@+id/chickenImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="-22dp"
+        app:layout_constraintBottom_toTopOf="@id/startPauseButton"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- Reset Button -->
     <Button
         android:id="@+id/resetButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
-        android:layout_marginBottom="284dp"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginBottom="172dp"
         android:text="Reset"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <!-- Start/Pause Button -->
+    <Button
+        android:id="@+id/startPauseButton"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="172dp"
+        android:text="Start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

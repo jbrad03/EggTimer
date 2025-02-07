@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/adlam_display"
         android:text="Runny or Hard?"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"

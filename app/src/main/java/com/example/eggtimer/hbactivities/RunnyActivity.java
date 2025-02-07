@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.graphics.drawable.AnimationDrawable;
 
 import com.example.eggtimer.R;
 
@@ -26,6 +27,8 @@ public class RunnyActivity extends AppCompatActivity {
     private ImageView chickenImageView;
     private ObjectAnimator chickenAnimator;
     private long chickenCurrentPosition = 0L;  // Tracks chicken’s animation progress for pausing/resuming
+    private AnimationDrawable chickenWalkingAnimation;  // Walking animation
+    private AnimationDrawable chickenSleepingAnimation;  // Sleeping animation
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +41,22 @@ public class RunnyActivity extends AppCompatActivity {
         circularProgressBar = findViewById(R.id.circularProgressBar);
         chickenImageView = findViewById(R.id.chickenImageView);
 
+        // Initialize both animations
+        chickenImageView.setImageResource(R.drawable.chicken_walk_animation);
+        chickenWalkingAnimation = (AnimationDrawable) chickenImageView.getDrawable();
+
+        chickenImageView.setImageResource(R.drawable.chicken_sleep_animation);
+        chickenSleepingAnimation = (AnimationDrawable) chickenImageView.getDrawable();
+
+        // Set the initial animation to sleeping
+        chickenImageView.setImageDrawable(chickenSleepingAnimation);
+        chickenSleepingAnimation.start();
+
         updateTimerText();
         updateProgressBar();
 
-        // Initialize the chicken animation (smoothly moving across the screen)
-        chickenAnimator = ObjectAnimator.ofFloat(chickenImageView, "translationX", 0f, getScreenWidth()); // Adjust 800f as necessary
+        // Initialize the chicken movement animation
+        chickenAnimator = ObjectAnimator.ofFloat(chickenImageView, "translationX", 0f, getScreenWidth() - 50f);
         chickenAnimator.setDuration(6000);  // Matches the total duration of the animation
         chickenAnimator.setRepeatCount(ObjectAnimator.INFINITE);  // Keep looping
         chickenAnimator.setInterpolator(null);  // Smooth linear animation
@@ -50,16 +64,16 @@ public class RunnyActivity extends AppCompatActivity {
         startPauseButton.setOnClickListener(v -> {
             if (timerRunning) {
                 pauseTimer();
-                pauseChickenAnimation();
+                pauseChickenAnimation();  // Switch to the sleeping animation when paused
             } else {
                 startTimer();
-                resumeChickenAnimation();
+                switchToWalkingAnimation();  // Switch to the walking animation when starting
             }
         });
 
         resetButton.setOnClickListener(v -> {
             resetTimer();
-            resetChickenPosition();
+            switchToSleepingAnimation();  // Switch to sleeping animation on reset
         });
     }
 
@@ -76,13 +90,19 @@ public class RunnyActivity extends AppCompatActivity {
             public void onFinish() {
                 timerRunning = false;
                 startPauseButton.setText("Start");
+
+                // Forcefully set the timer to 00:00 and update the progress bar
+                timeLeftInMillis = 0;
+                updateTimerText();
                 updateProgressBar();
+                switchToSleepingAnimation();
             }
         }.start();
 
         timerRunning = true;
         startPauseButton.setText("Pause");
-        chickenAnimator.start();  // Ensure the chicken starts moving when the timer starts
+        switchToWalkingAnimation();  // Ensure the walking animation starts
+        chickenAnimator.start();  // Start the chicken’s movement
     }
 
     private void pauseTimer() {
@@ -115,23 +135,33 @@ public class RunnyActivity extends AppCompatActivity {
         circularProgressBar.setProgress(progress);
     }
 
-    private void pauseChickenAnimation() {
-        // Save the current animation position and pause it
-        chickenCurrentPosition = chickenAnimator.getCurrentPlayTime();
-        chickenAnimator.pause();
+    private void switchToSleepingAnimation() {
+        chickenAnimator.pause();  // Pause the chicken’s movement
+        chickenImageView.setImageDrawable(chickenSleepingAnimation);  // Switch to sleeping animation
+        chickenSleepingAnimation.start();  // Start the sleeping animation
     }
 
-    private void resumeChickenAnimation() {
-        // Resume animation from the saved position
-        chickenAnimator.setCurrentPlayTime(chickenCurrentPosition);
-        chickenAnimator.resume();
+    private void switchToWalkingAnimation() {
+        chickenImageView.setImageDrawable(chickenWalkingAnimation);  // Switch to walking animation
+        chickenWalkingAnimation.start();  // Start or resume the walking animation
+        chickenAnimator.setCurrentPlayTime(chickenCurrentPosition);  // Resume the chicken’s movement from where it left off
+        chickenAnimator.start();
+    }
+
+    private void pauseChickenAnimation() {
+        chickenCurrentPosition = chickenAnimator.getCurrentPlayTime();  // Save the current animation position
+        chickenAnimator.pause();
+        chickenWalkingAnimation.stop();  // Stop the walking animation
+        switchToSleepingAnimation();
     }
 
     private void resetChickenPosition() {
-        chickenAnimator.cancel();  // Cancel any ongoing animation
+        chickenAnimator.cancel();  // Cancel the movement
         chickenImageView.setTranslationX(0f);  // Move the chicken back to the start
         chickenCurrentPosition = 0L;  // Reset the tracked animation position
+        switchToSleepingAnimation();  // Reset to sleeping animation
     }
+
     private float getScreenWidth() {
         return getResources().getDisplayMetrics().widthPixels;
     }
